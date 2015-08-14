@@ -1,0 +1,1 @@
+angular.module('adresarApp', ['adresarApp.controllers', 'adresarApp.services']);

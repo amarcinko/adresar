@@ -1,0 +1,137 @@
+﻿@model IEnumerable<Adresar.Models.Kontakt>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+@using (Html.BeginForm("Pretraga", "Home"))
+{
+    @Html.AntiForgeryToken()
+
+        @Html.TextBox("pretraga")
+        <input type="submit" value="Pretraga" class="btn-info"/>
+}
+<br>
+
+<div class="row" ng-app="adresarApp" ng-controller="adresarController">
+    <div class="col-sm-6">
+        <h4>Popis kontakata</h4>
+        <hr />
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prezime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Brojevi)
+                </th>
+                <th>Prikaz kontakta</th>
+            </tr>
+            <tr ng-repeat="unos in detalji">
+                <td>
+                    {{ unos.ime }}
+                </td>
+                <td>
+                    {{ unos.prezime }}
+                </td>
+                <td>
+                    {{ unos.grad }}
+                </td>
+                <td>
+                    <ul class="no-bullet">
+                        <li ng-repeat="broj in detalji[$index].brojevi">
+                                {{ broj.broj }}
+                        </li>
+                    </ul>
+                </td>
+                <td>
+                    <a ng-click="prikaz({{ $index }})" class="btn btn-success" role="button">Prikaz >></a>
+                </td>
+            </tr>
+
+        </table>
+
+        <a ng-click="podaci(trenutnaStranica - 1)" class="btn btn-warning">Prethodna</a>
+        <a ng-click="podaci(trenutnaStranica + 1)" class="btn btn-warning">Sljedeca</a>
+    </div>
+    <div class="col-sm-6">
+        <h4>{{naslov}}</h4>
+        <hr />
+        <dl class="dl-horizontal odjeljak" ng-hide="hidden" ng-class="{'fade': startFade, 'show': startShow}">
+            <dt>
+                @Html.DisplayNameFor(model => model.SingleOrDefault().Ime)
+            </dt>
+
+            <dd>
+                {{ detalji[brojac].ime }}
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SingleOrDefault().Prezime)
+            </dt>
+
+            <dd>
+                {{ detalji[brojac].prezime }}
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SingleOrDefault().Grad)
+            </dt>
+
+            <dd>
+                {{ detalji[brojac].grad }}
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SingleOrDefault().Opis)
+            </dt>
+
+            <dd>
+                {{ detalji[brojac].opis }}
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SingleOrDefault().Brojevi)
+            </dt>
+
+            <dd>
+                <table class="table">
+                    <tr>
+                        <th>Broj</th>
+                        <th>Tip</th>
+                        <th>Opis</th>
+                    </tr>
+                    <tr ng-repeat="unos in detalji[brojac].brojevi">
+                        <td>
+                            {{ unos.broj }}
+                        </td>
+                        <td>
+                            {{ unos.tip }}
+                        </td>
+                        <td>
+                            {{ unos.opisBroja }}
+                        </td>
+                    </tr>
+                </table>
+            </dd>
+
+            <dd>
+                <img src="{{ detalji[brojac].slika }}" height="200" width="200" alt="Slika nije dodana." />
+            </dd>
+
+            <dd style="margin: 0px 0px 0px 100px; padding-bottom:20px; padding-top:20px;">
+                <a href="/Home/Edit/{{detalji[brojac].id}}" class="btn btn-warning">Uredi Kontakt</a>
+                <a href="/Home/Details/{{detalji[brojac].id}}" class="btn btn-primary">Stranica kontakta</a>
+                <a href="/Home/Delete/{{detalji[brojac].id}}" class="btn btn-danger">Obrisi kontakt</a>
+            </dd>
+        </dl>
+
+    </div>
+</div>

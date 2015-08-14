@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Adresar.Models.Kontakt>
+
+@{
+    ViewBag.Title = "Pretraga";
+}
+
+<h2>Pretraga</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    @Html.TextBox("pretraga")
+    <input type="submit" value="Pretraga" class="btn-info" />
+}
+<br>
+        <h4>Popis kontakata</h4>
+        <hr />
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Ime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prezime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Grad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Brojevi)
+                </th>
+                <th>Opcije</th>
+            </tr>
+            @foreach (var item in Model)
+     {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Ime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prezime)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Grad)
+                    </td>
+                    <td>
+                        @foreach (var unos in item.Brojevi)
+                {
+                            @unos.Broj
+                            <br>
+                }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                    </td>
+                </tr>
+    }
+
+        </table>
+
